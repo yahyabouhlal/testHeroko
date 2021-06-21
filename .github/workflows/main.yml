@@ -1,21 +1,23 @@
-name: HerokuContainer
+name: CI
 
 on:
   push:
     branches:
-      - master
+    - master
+    - release/*
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  build_icolors:
+    runs-on: ubuntu-16.04
     steps:
-      - uses: actions/checkout@v1
-      - name: Build and deploy the Docker image
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          APP_NAME: ${{ 'icolors' }}
-        run: |
-          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-          heroku container:push web -a $APP_NAME
-          heroku container:release web -a $APP_NAME
+    - uses: actions/checkout@v1
+    - name: Build and deploy the Docker image
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        APP_NAME: ${{ 'unittest-mock' }}
+      run: |
+        cd ./
+        docker login --username=yahya.bouhlal.b@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
+        heroku container:push web -a $APP_NAME
+        heroku container:release web -a $APP_NAME
+ 
